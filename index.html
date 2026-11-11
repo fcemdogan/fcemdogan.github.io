@@ -8,7 +8,7 @@
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=midnight-2"><script src="site.js?v=midnight-2" defer></script>
+<link rel="stylesheet" href="styles.css?v=midnight-3"><script src="site.js?v=midnight-3" defer></script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Fırat Cem Doğan","honorificPrefix":"Asst. Prof. Dr.","jobTitle":"Assistant Professor and Department Chair","worksFor":{"@type":"CollegeOrUniversity","name":"Hasan Kalyoncu University"},"sameAs":["https://orcid.org/0000-0002-2398-1484","https://www.scopus.com/authid/detail.uri?authorId=59063154900","https://profil.hku.edu.tr/akademik/firat-cem-dogan/"]}</script>
 </head>
 <body>
@@ -16,16 +16,16 @@
 
 <header class="nav">
 <div class="wrap navrow">
-<a href="#home" class="brand"><span class="brand-symbol">FD<span class="lime">.</span></span><span>FIRAT CEM DOĞAN<small>ASST. PROF. DR.</small></span></a>
+
 <nav id="menu" aria-label="Main navigation"><a href="#about">About</a><a href="#research">Research</a><a href="#publications">Publications</a><a href="#teaching">Teaching</a><a href="#contact">Contact</a></nav>
-<div class="navright"><a class="navcv" href="cv.html">ACADEMIC CV <span>↗</span></a><button id="menubtn" aria-label="Toggle menu" aria-expanded="false">☰</button></div>
+<div class="navright"><button type="button" id="piano-toggle" class="piano-toggle" aria-label="Enable relaxing piano music" aria-pressed="false" title="Play an original relaxing piano melody"><span class="piano-icon">♫</span><span id="piano-status">PIANO OFF</span></button><a class="navcv" href="cv.html">ACADEMIC CV <span>↗</span></a><button id="menubtn" aria-label="Toggle menu" aria-expanded="false">☰</button></div>
 </div></header>
 <main id="main">
 <section class="hero" id="home">
 
 <div class="wrap hero-grid">
 <div class="hero-left">
-<div class="eyebrow"><span class="pulse"></span><span>ACADEMIC PROFILE <em>·</em> HASAN KALYONCU UNIVERSITY</span></div>
+
 <div class="title-tag">ASST. PROF. DR.</div>
 <h1>Fırat Cem<br><span>Doğan<span class="dot">.</span></span></h1>
 <div class="role">Assistant Professor <span class="star">✳</span> Department Chair</div>
@@ -55,9 +55,10 @@
 <div class="interest"><span>03 / FIELD</span><h3>Development Economics</h3><p>Poverty, income distribution, economic opportunity, and sustainability.</p><b>↗</b></div>
 <div class="interest"><span>04 / FIELD</span><h3>Economic Policy</h3><p>Evidence-informed policy choices and their economic consequences.</p><b>↗</b></div></div>
 </div></section>
-<section id="publications" class="section light"><div class="wrap"><div class="section-index">03 <span>— PUBLICATIONS</span></div><div class="split-head darkhead"><h2>Selected <em>publications.</em></h2><p>DOI-linked peer-reviewed publications. Automatically refreshed metadata where verifiable.</p></div>
+<section id="publications" class="section light"><div class="wrap"><div class="section-index">03 <span>— PUBLICATIONS</span></div><div class="split-head darkhead"><h2>Publications</h2><p>Explore my academic publications by year. The visual overview is calculated from the publication records displayed below.</p></div>
+<div class="pub-overview" aria-label="Publication overview"><div class="pub-metrics" id="pub-metrics" aria-live="polite"><span>Loading publication records…</span></div><div class="pub-chart"><div class="pub-chart-head"><strong>Publication activity</strong><span>NUMBER OF LISTED WORKS BY YEAR</span></div><div id="pub-year-bars" class="pub-year-bars" role="group" aria-label="Filter publications by year using annual counts"></div></div></div>
 <div class="controls"><label class="search"><span>⌕</span><input id="pubsearch" type="search" placeholder="Search publication titles and journals…" aria-label="Search publications"></label><select id="yearfilter" aria-label="Filter publications by year"><option value="all">ALL YEARS</option></select></div>
-<div id="publication-list" class="publication-list"><p class="placeholder">Loading verified academic records…</p></div>
+<div id="publication-list" class="publication-list pub-timeline"><p class="placeholder">Loading verified academic records…</p></div>
 <div class="bottomline"><span id="pubstatus">Source: HKÜ / ORCID-matched OpenAlex</span><a target="_blank" rel="noopener noreferrer" href="https://profil.hku.edu.tr/akademik/firat-cem-dogan/">FULL UNIVERSITY PUBLICATION LIST ↗</a></div>
 </div></section>
 <section id="teaching" class="section cream"><div class="wrap"><div class="section-index">04 <span>— TEACHING</span></div><div class="split-head darkhead"><h2>Inside the <em>classroom.</em></h2><p>Undergraduate and graduate courses listed in the official Hasan Kalyoncu University profile.</p></div>

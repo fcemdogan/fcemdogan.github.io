@@ -8,7 +8,7 @@
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=midnight-3"><script src="site.js?v=midnight-3" defer></script>
+<link rel="stylesheet" href="styles.css?v=midnight-4"><script src="site.js?v=midnight-4" defer></script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Fırat Cem Doğan","honorificPrefix":"Asst. Prof. Dr.","jobTitle":"Assistant Professor and Department Chair","worksFor":{"@type":"CollegeOrUniversity","name":"Hasan Kalyoncu University"},"sameAs":["https://orcid.org/0000-0002-2398-1484","https://www.scopus.com/authid/detail.uri?authorId=59063154900","https://profil.hku.edu.tr/akademik/firat-cem-dogan/"]}</script>
 </head>
 <body>
@@ -18,7 +18,7 @@
 <div class="wrap navrow">
 
 <nav id="menu" aria-label="Main navigation"><a href="#about">About</a><a href="#research">Research</a><a href="#publications">Publications</a><a href="#teaching">Teaching</a><a href="#contact">Contact</a></nav>
-<div class="navright"><button type="button" id="piano-toggle" class="piano-toggle" aria-label="Enable relaxing piano music" aria-pressed="false" title="Play an original relaxing piano melody"><span class="piano-icon">♫</span><span id="piano-status">PIANO OFF</span></button><a class="navcv" href="cv.html">ACADEMIC CV <span>↗</span></a><button id="menubtn" aria-label="Toggle menu" aria-expanded="false">☰</button></div>
+<div class="navright"><div class="classical-music-controls"><button type="button" id="piano-toggle" class="piano-toggle" aria-label="Play relaxing classical piano" aria-pressed="false" title="Play or pause classical piano"><span class="piano-icon" aria-hidden="true">♫</span><span id="piano-status">PIANO OFF</span></button><select id="music-track" class="music-track" aria-label="Select background music"><option value="chopin">CHOPIN</option><option value="beethoven">BEETHOVEN</option></select></div><a class="navcv" href="cv.html">ACADEMIC CV <span>↗</span></a><button id="menubtn" aria-label="Toggle menu" aria-expanded="false">☰</button></div>
 </div></header>
 <main id="main">
 <section class="hero" id="home">
@@ -64,6 +64,6 @@
 <section id="teaching" class="section cream"><div class="wrap"><div class="section-index">04 <span>— TEACHING</span></div><div class="split-head darkhead"><h2>Inside the <em>classroom.</em></h2><p>Undergraduate and graduate courses listed in the official Hasan Kalyoncu University profile.</p></div>
 <div class="teaching-grid"><div class="teaching-panel"><span>TEACHING / PORTFOLIO</span><strong id="course-count">14<span>.</span></strong><p>Recorded courses from HKÜ</p><label for="courseyear">ACADEMIC YEAR</label><select id="courseyear"><option value="all">ALL ACADEMIC YEARS</option></select></div><div id="course-list" class="course-list"><p class="placeholder">Loading teaching records…</p></div></div><div class="bottomline"><span id="coursestatus">Source: HKÜ/YÖKSİS</span><a target="_blank" rel="noopener noreferrer" href="https://profil.hku.edu.tr/akademik/firat-cem-dogan/">VERIFY TEACHING RECORDS ↗</a></div></div></section>
 <section class="section dark contact" id="contact"><div class="wrap"><div class="section-index">05 <span>— CONNECT</span></div><h2>Let's exchange <em>ideas.</em></h2><div class="contact-grid"><div><span>INSTITUTION</span><strong>Hasan Kalyoncu University</strong><p>Department of Banking and Insurance<br>Gaziantep, Türkiye</p></div><div><span>EMAIL</span><a href="mailto:fcem.dogan@hku.edu.tr">fcem.dogan@hku.edu.tr ↗</a></div><div><span>ACADEMIC LINKS</span><a href="https://www.scopus.com/authid/detail.uri?authorId=59063154900" target="_blank" rel="noopener noreferrer">SCOPUS ↗</a><a href="https://orcid.org/0000-0002-2398-1484" target="_blank" rel="noopener noreferrer">ORCID ↗</a><a href="https://akademik.yok.gov.tr/academician-details?authorGuidId=477B29C74BDA99ED" target="_blank" rel="noopener noreferrer">YÖK AKADEMİK ↗</a><a href="https://profil.hku.edu.tr/akademik/firat-cem-dogan/" target="_blank" rel="noopener noreferrer">HKÜ PROFILE ↗</a></div></div>
-<footer><span>© 2026 Fırat Cem Doğan · Asst. Prof. Dr.</span><span>ACADEMIC PORTFOLIO <i>✳</i> <a href="#home">BACK TO TOP ↑</a></span></footer></div></section>
+<footer><span>© 2026 Fırat Cem Doğan · Asst. Prof. Dr.</span><span>ACADEMIC PORTFOLIO <i>✳</i> <a href="#home">BACK TO TOP ↑</a></span></footer><p class="music-credit" id="music-credit">Music: Frédéric Chopin, <em>Nocturne in E-flat major, Op. 9 No. 2</em> · performance by Peter Johnston · <a href="https://commons.wikimedia.org/wiki/File:Chopin_Nocturne_No._2_in_E_Flat_Major,_Op._9.ogg" target="_blank" rel="noopener noreferrer">CC0 / Wikimedia Commons ↗</a></p></div></section>
 </main>
 </body></html>

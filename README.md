@@ -47,3 +47,70 @@ Updater: `scripts/update_academic_data.py`
 - https://akademik.yok.gov.tr/academician-details?authorGuidId=477B29C74BDA99ED
 
 **Data caveat:** This site initially displays a selected list of 15 DOI-linked publications, not all the author's HKÜ records. A Google Scholar profile link should be added only once the correct profile URL is supplied.
+
+
+## Visitor statistics (daily / weekly / monthly)
+
+The homepage now shows a **PROFILE VISITORS** panel beside the faculty portrait, with
+Today, This Week and This Month counters. The display uses **real analytics data only**.
+Until a tracking account is connected, it displays **—** (never fabricated numbers).
+
+GitHub Pages is a static hosting service and does not have a built-in public API
+for site visitor counts. The panel supports the free privacy-friendly GoatCounter.
+
+To activate:
+
+1. Register a GoatCounter account at https://www.goatcounter.com/ and add the website
+   `https://fcemdogan.github.io/`.
+2. In GoatCounter site settings enable **"Allow adding visitor counts on your website"**
+   (the public counter setting is disabled by default).
+3. Edit `analytics-config.json` in this GitHub repository:
+   set `"siteCode"` to your real GoatCounter subdomain code, e.g. if the tracking
+   URL is `https://YOURCODE.goatcounter.com/count`, set it to `"YOURCODE"`.
+   Change `"enabled": false` to `"enabled": true`.
+4. Commit the change. The page will load GoatCounter's lightweight tracking script
+   and populate the three counters with real data, once available.
+
+Counter windows use **Europe/Istanbul** calendar dates: today, this calendar week
+(Monday onward), and this calendar month. The display measures the provider's
+**visit counts**, not guaranteed unique individuals. GoatCounter counters can be
+cached for up to four hours; past visits are not reconstructed automatically.
+Never put private API tokens in the public repository.
+
+## Writing and publishing Blogs
+
+The homepage has a **Blogs** preview section and the dedicated address
+https://fcemdogan.github.io/blogs.html.
+
+The file `blogs.json` starts with an empty `"posts"` array. It is intentionally
+empty until the author's first real blog article is ready. Posts are published
+automatically on the homepage and on `blogs.html` once added.
+
+Example structure for a future article (example only, **not published**):
+
+```json
+{
+  "updated": "2026-11-11",
+  "posts": [
+    {
+      "slug": "economic-policy-reflections",
+      "date": "2026-11-11",
+      "category": "ECONOMIC POLICY",
+      "title": "Your real blog post title here",
+      "excerpt": "A short summary of your original article.",
+      "content": [
+        {"type": "paragraph", "text": "Your introduction paragraph."},
+        {"type": "heading", "text": "A section heading"},
+        {"type": "paragraph", "text": "Another paragraph."},
+        {"type": "quote", "text": "An optional quotation from your own writing."}
+      ]
+    }
+  ]
+}
+```
+
+To publish, replace the example text with the actual post in `blogs.json`
+and commit the file. All text is rendered safely rather than interpreted as HTML.
+Each blog post has its own shareable link:
+`https://fcemdogan.github.io/blogs.html?post=your-post-slug`.
+Multiple posts can be placed in the `posts` array, newest first by date.

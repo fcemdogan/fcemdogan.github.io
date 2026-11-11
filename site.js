@@ -130,8 +130,10 @@ pianoAudio.addEventListener("error",()=>{
 });
 /* A browser gesture can unblock an earlier automatic-play attempt.
    This listener is removed after the first attempt or when music is explicitly paused. */
-function resumeMusicFromGesture(){
+function resumeMusicFromGesture(event){
  if(!startOnGesture||pausedByVisitor)return;
+ /* Let the dedicated player controls handle their own user gesture. */
+ if(event.target&&event.target.closest&&event.target.closest(".classical-music-controls"))return;
  startOnGesture=false;
  attemptPianoPlayback();
 }

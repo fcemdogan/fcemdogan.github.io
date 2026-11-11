@@ -10,3 +10,54 @@
 .portrait:before{font-size:82px;letter-spacing:-8px}
 @media(max-width:800px){.hero-right{min-height:420px}.portrait{width:280px;height:370px;border-radius:145px 145px 12px 12px}}
 @media(max-width:500px){.hero-right{min-height:335px}.portrait{width:245px;height:320px;border-radius:123px 123px 12px 12px}}
+
+
+/* Publication timeline + opt-in original relaxing piano */
+.navrow{justify-content:flex-end}
+.nav nav{margin-right:auto}
+.navright{margin-left:auto}
+.piano-toggle{display:inline-flex;align-items:center;justify-content:center;gap:9px;background:#1d2942;color:#d7ff8a;border:1px solid #71809a66;border-radius:5px;padding:13px 15px;font-size:10px;font-weight:800;letter-spacing:1.1px;white-space:nowrap;transition:background .2s,border-color .2s}
+.piano-toggle:hover,.piano-toggle[aria-pressed="true"]{background:#d3ff69;color:#10182b;border-color:#d3ff69}
+.piano-icon{font-size:17px;font-weight:500;line-height:.8}
+.pub-overview{display:grid;grid-template-columns:minmax(270px,1fr) minmax(330px,1fr);gap:18px;margin:38px 0 30px}
+.pub-metrics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+.pub-metric{background:#f0f2eb;border:1px solid #e3e8df;padding:21px 22px;display:flex;flex-direction:column;justify-content:space-between;min-height:137px}
+.pub-metric:first-child{grid-column:1/-1;min-height:166px;background:#101a2e;border-color:#101a2e;color:#fff}
+.pub-metric>span{font-size:10px;font-weight:800;letter-spacing:1.6px;color:#728070}
+.pub-metric:first-child>span{color:#c9dcab}
+.pub-metric strong{font-family:"Space Grotesk",sans-serif;font-size:51px;font-weight:600;line-height:1.1;letter-spacing:-2px;color:#263627}
+.pub-metric:first-child strong{color:#d3ff69;font-size:75px}
+.pub-metric small{font-size:11px;color:#7a8878;line-height:1.4}
+.pub-metric:first-child small{color:#aab9c9}
+.pub-chart{background:#f7f8f2;border:1px solid #e0e5dc;padding:25px 26px}
+.pub-chart-head{display:flex;flex-direction:column;gap:7px;margin-bottom:21px}
+.pub-chart-head strong{font-family:"Space Grotesk";font-size:21px;letter-spacing:-.8px;color:#263627}
+.pub-chart-head span{font-size:10px;letter-spacing:1.2px;color:#8a9488;font-weight:700}
+.pub-year-bars{display:grid;gap:13px}
+.pub-year-row{display:grid;grid-template-columns:52px minmax(0,1fr) 28px;gap:13px;align-items:center;padding:4px 3px;background:transparent;border:0;width:100%;cursor:pointer;text-align:left;color:#304033}
+.pub-year-row:hover .pub-bar-fill,.pub-year-row.is-active .pub-bar-fill{background:#a8d751}
+.pub-year-row.is-active .pub-bar-label{color:#608021}
+.pub-bar-label{font-family:"Space Grotesk";font-size:13px;font-weight:700}
+.pub-bar-track{display:block;background:#e2e7db;height:12px;overflow:hidden;border-radius:2px}
+.pub-bar-fill{display:block;height:100%;background:linear-gradient(90deg,#576e5d,#9fb99f);transition:width .45s,background .2s}
+.pub-bar-count{font-family:"Space Grotesk";color:#536b59;text-align:right;font-size:13px;font-weight:700}
+.pub-timeline{margin-top:27px;display:grid;gap:30px}
+.pub-era{display:grid;grid-template-columns:140px minmax(0,1fr);gap:20px;align-items:stretch}
+.pub-era-heading{position:relative;border-right:1px solid #dce4d8;padding:20px 20px 18px 2px;display:flex;flex-direction:column;gap:9px}
+.pub-era-heading:after{position:absolute;content:"";width:9px;height:9px;right:-5px;top:27px;background:#a6c96c;border-radius:50%;box-shadow:0 0 0 5px #e8f0d9}
+.pub-era-heading strong{font-family:"Space Grotesk";font-size:29px;color:#233528;letter-spacing:-1.5px}
+.pub-era-heading span{font-size:10px;color:#819083;letter-spacing:1.5px;font-weight:700}
+.pub-era-items{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.pub-card{display:flex;flex-direction:column;gap:13px;min-height:250px;padding:22px 23px;background:#fff;border:1px solid #e1e6dd;transition:border-color .2s,transform .2s,box-shadow .2s}
+.pub-card:hover{border-color:#b4c99e;transform:translateY(-3px);box-shadow:0 14px 28px #24351c0b}
+.pub-card-meta{display:flex;justify-content:space-between;gap:10px;align-items:start;color:#778376;font-size:10px;line-height:1.6}
+.pub-kind{white-space:nowrap;font-size:9px;color:#5b764f;font-weight:800;letter-spacing:1px}
+.pub-card h3{font-family:"Space Grotesk";font-size:18px;line-height:1.4;font-weight:600;color:#283328;letter-spacing:-.55px;margin:0}
+.pub-card p{font-size:12px;color:#7c877c;line-height:1.6;margin:0 0 2px}
+.pub-doi{font-size:10px;font-weight:800;color:#415a3a;border-top:1px solid #e6ebe1;padding-top:14px;margin-top:auto;letter-spacing:1.1px;display:flex;justify-content:space-between;align-items:center}
+.pub-doi span{font-size:20px;font-weight:400}
+.pub-doi:hover{color:#7ca634}
+@media(max-width:1080px){.pub-overview{grid-template-columns:1fr 1fr}.pub-card h3{font-size:16px}.pub-era{grid-template-columns:110px 1fr}.pub-era-items{grid-template-columns:1fr}.pub-card{min-height:180px}}
+@media(max-width:800px){.navrow{justify-content:flex-end}.navright{margin-left:auto}.pub-overview{grid-template-columns:1fr}.pub-metrics{grid-template-columns:repeat(3,1fr)}.pub-metric:first-child{grid-column:auto;min-height:150px}.pub-metric:first-child strong{font-size:51px}.pub-chart{padding:24px}.pub-era{grid-template-columns:100px 1fr}.pub-era-items{grid-template-columns:1fr}}
+@media(max-width:500px){.piano-toggle{padding:10px;gap:5px;font-size:9px}.piano-icon{font-size:15px}.navright{margin-left:auto}.pub-metrics{grid-template-columns:repeat(2,1fr)}.pub-metric:first-child{grid-column:1/-1;min-height:132px}.pub-metric{min-height:125px;padding:16px}.pub-chart{padding:17px}.pub-era{grid-template-columns:1fr;gap:0}.pub-era-heading{border-right:0;border-bottom:1px solid #dce4d8;padding:5px 4px 12px;flex-direction:row;align-items:center;justify-content:space-between;margin-bottom:14px}.pub-era-heading:after{width:7px;height:7px;top:auto;right:auto;left:0;bottom:-4px}.pub-card{min-height:160px;padding:18px}.pub-card h3{font-size:17px}.pub-card-meta{flex-direction:column;gap:3px}.piano-toggle #piano-status{font-size:9px}}
+@media(prefers-reduced-motion:reduce){.pub-bar-fill,.pub-card{transition:none}}

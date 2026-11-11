@@ -74,3 +74,30 @@
 .music-credit a:hover{color:#fff}
 @media(max-width:800px){.music-track{max-width:95px;min-width:74px;padding-left:5px;font-size:9px}.classical-music-controls .piano-toggle{padding:11px 9px}}
 @media(max-width:500px){.classical-music-controls .piano-toggle{padding:10px 7px}.music-track{max-width:78px;min-width:70px;padding:0 14px 0 4px;font-size:8px}.music-credit{font-size:10px}.navright{gap:6px}}
+
+/* The publication trajectory: dark editorial infographic with living vertical pillars. */
+.pub-overview{align-items:stretch}
+.pub-chart{position:relative;isolation:isolate;overflow:hidden;min-height:405px;background:linear-gradient(145deg,#111d31 0%,#182e40 100%);border:1px solid #304254;border-radius:12px;padding:29px 30px 25px;box-shadow:0 18px 55px #16243812}
+.pub-chart::before{position:absolute;content:"";inset:0;pointer-events:none;z-index:-1;opacity:.38;background-image:repeating-linear-gradient(0deg,transparent 0px,transparent 39px,#cde7db16 40px),repeating-linear-gradient(90deg,transparent 0px,transparent 44px,#dceadd0d 45px)}
+.pub-chart::after{position:absolute;content:"";width:230px;height:230px;right:-110px;top:-110px;border-radius:50%;z-index:-1;pointer-events:none;background:#b4ff724a;filter:blur(80px)}
+.pub-chart-head{display:flex;flex-direction:column;align-items:start;gap:7px;margin:0 0 18px;max-width:100%}
+.pub-chart-head .chart-kicker{font-size:9px;color:#bfd59f;letter-spacing:2.1px;font-weight:800;line-height:1.4}
+.pub-chart-head strong{font-family:"Space Grotesk",sans-serif;color:#fff;font-size:clamp(24px,3vw,34px);font-weight:600;line-height:1.18;letter-spacing:-1.2px}
+.pub-chart-head .chart-period{font-size:1.2em;color:#ccfb6c}
+.pub-chart-head .chart-subtitle{color:#a5bdca;font-size:9px;letter-spacing:1.25px;font-weight:700;margin-top:5px;line-height:1.4}
+.pub-year-bars{display:flex;align-items:flex-end;justify-content:space-around;gap:12px;min-height:226px;padding:15px 5px 4px;border-bottom:1px solid #9cb3b133}
+.pub-year-col{display:flex;flex-direction:column;align-items:center;justify-content:end;gap:11px;flex:1;min-width:0;max-width:100px;padding:0 2px 2px;border:0;background:none;cursor:pointer;color:#deebee;transition:transform .2s}
+.pub-year-col:hover{transform:translateY(-3px)}
+.pub-year-col:focus-visible{outline:2px solid #c8fe70;outline-offset:5px;border-radius:4px}
+.pub-year-value{color:#bfe2bc;font-family:"Space Grotesk",sans-serif;font-size:19px;font-weight:700;letter-spacing:-.5px}
+.pub-year-pillar-wrap{height:170px;width:100%;display:flex;align-items:flex-end;justify-content:center;position:relative}
+.pub-year-pillar{position:relative;display:block;width:min(52px,80%);min-height:22px;background:linear-gradient(0deg,#779793 0%,#9bbb9b 54%,#c3ef8b 100%);border-radius:13px 13px 3px 3px;box-shadow:0 9px 26px #9fcba42e;transition:height .55s ease,filter .25s ease,transform .25s ease,background .25s}
+.pub-pillar-shine{position:absolute;left:9px;top:10px;bottom:10px;width:2px;background:#ffffff38;border-radius:99px}
+.pub-year-col.is-active .pub-year-pillar,.pub-year-col:hover .pub-year-pillar{background:linear-gradient(0deg,#9fb95d,#d8ff74);box-shadow:0 0 24px #d8ff7444}
+.pub-year-col.is-active .pub-year-value,.pub-year-col:hover .pub-year-value{color:#d8ff74}
+.pub-year-label{color:#c1cdd5;font-family:"Space Grotesk",sans-serif;font-weight:600;font-size:12px;letter-spacing:.5px}
+.pub-year-col.is-active .pub-year-label{color:#d8ff74}
+@media(max-width:1080px){.pub-chart{min-height:400px}}
+@media(max-width:800px){.pub-chart{padding:26px 23px;min-height:400px}.pub-chart-head strong{font-size:30px}}
+@media(max-width:500px){.pub-chart{min-height:390px;padding:25px 16px 19px}.pub-chart-head strong{font-size:26px}.pub-chart-head .chart-subtitle{font-size:8px}.pub-year-bars{gap:7px;min-height:210px;padding:9px 0 3px}.pub-year-pillar-wrap{height:166px}.pub-year-pillar{width:min(45px,75%);border-radius:8px 8px 2px 2px}.pub-year-value{font-size:16px}.pub-year-label{font-size:11px}}
+@media(prefers-reduced-motion:reduce){.pub-year-col,.pub-year-pillar{transition:none}}

@@ -48,84 +48,82 @@ function courseView(){let y=q("#courseyear").value,a=courses.filter(c=>y==="all"
 q("#pubsearch").addEventListener("input",pubView);q("#yearfilter").addEventListener("change",pubView);q("#courseyear").addEventListener("change",courseView);
 let menu=q("#menu");q("#menubtn").addEventListener("click",()=>{let o=menu.classList.toggle("open");q("#menubtn").setAttribute("aria-expanded",String(o))});menu.querySelectorAll("a").forEach(a=>a.addEventListener("click",()=>{menu.classList.remove("open");q("#menubtn").setAttribute("aria-expanded","false")}));
 
-/* Original generative ambient piano — no embedded copyrighted recording.
-   Starts only when the visitor activates the button (browser autoplay policies). */
+/* Piano performances from Wikimedia Commons: Chopin (CC0, Peter Johnston) and
+   Beethoven (CC BY 2.5, Juan Felipe Arjona). MP3 transcoded by Wikimedia Commons.
+   Play at low volume and loop. Autoplay is attempted but may be browser-blocked. */
 const pianoButton=q("#piano-toggle");
-let pianoContext=null,pianoTimer=null,pianoMaster=null,pianoDelay=null,pianoBeat=0,pianoNext=0;
-let pianoPlaying=false;
-const pianoTempo=68,pianoBeatSeconds=60/pianoTempo;
-const pianoChords=[
- [48,52,55,59],[45,48,52,55],[41,45,48,52],[43,47,50,55],
- [48,52,55,59],[45,48,52,57],[41,45,48,52],[43,47,50,53]
-];
-const pianoMelody=[
- 72,null,76,79,76,72,71,null,69,null,72,76,74,71,69,null,
- 72,76,79,76,72,null,69,72,67,72,76,72,71,null,67,null
-];
-function playPianoNote(midi,when,velocity=.22,length=2.8){
- const ctx=pianoContext;if(!ctx||!pianoMaster)return;
- const hz=440*Math.pow(2,(midi-69)/12),env=ctx.createGain();
- env.gain.setValueAtTime(.0001,when);
- env.gain.exponentialRampToValueAtTime(Math.max(.001,velocity),when+.014);
- env.gain.exponentialRampToValueAtTime(.0001,when+length);
- env.connect(pianoMaster);if(pianoDelay)env.connect(pianoDelay);
- for(const [ratio,weight,type] of [[1,.64,"sine"],[2,.26,"sine"],[3,.11,"triangle"]]){
-  const osc=ctx.createOscillator(),harmonic=ctx.createGain();
-  osc.type=type;osc.frequency.setValueAtTime(hz*ratio,when);
-  harmonic.gain.value=weight;osc.connect(harmonic);harmonic.connect(env);
-  osc.start(when);osc.stop(when+length+.05);
-  osc.onended=()=>{osc.disconnect();harmonic.disconnect()};
+const trackSelect=q("#music-track");
+const musicCredit=q("#music-credit");
+const pianoTracks={
+ chopin:{
+  url:"https://upload.wikimedia.org/wikipedia/commons/transcoded/0/04/Chopin_Nocturne_No._2_in_E_Flat_Major%2C_Op._9.ogg/Chopin_Nocturne_No._2_in_E_Flat_Major%2C_Op._9.ogg.mp3",
+  description:"Frédéric Chopin, Nocturne in E-flat major, Op. 9 No. 2",
+  performer:"Peter Johnston",license:"CC0",
+  page:"https://commons.wikimedia.org/wiki/File:Chopin_Nocturne_No._2_in_E_Flat_Major,_Op._9.ogg",
+  licenseUrl:"https://creativecommons.org/publicdomain/zero/1.0/"
+ },
+ beethoven:{
+  url:"https://upload.wikimedia.org/wikipedia/commons/transcoded/f/f0/Moonlight.ogg/Moonlight.ogg.mp3",
+  description:"Ludwig van Beethoven, Moonlight Sonata, 1st movement",
+  performer:"Juan Felipe Arjona",license:"CC BY 2.5",
+  page:"https://commons.wikimedia.org/wiki/File:Moonlight.ogg",
+  licenseUrl:"https://creativecommons.org/licenses/by/2.5/"
  }
- setTimeout(()=>{try{env.disconnect()}catch(e){}},Math.ceil((length+2)*1000));
+};
+const classicalAudio=new Audio();
+classicalAudio.loop=true;
+classicalAudio.volume=.16;
+classicalAudio.preload="none";
+classicalAudio.setAttribute("playsinline","");
+let attemptedAutoPlay=false;
+function updateMusicUI(status){
+ const playing=status==="playing";
+ pianoButton.setAttribute("aria-pressed",String(playing));
+ pianoButton.setAttribute("aria-label",playing?"Pause background classical piano":"Play background classical piano");
+ q("#piano-status").textContent=status==="loading"?"LOADING…":status==="error"?"TRY AGAIN":playing?"PIANO ON":"PIANO OFF";
 }
-function schedulePianoBeat(index,when){
- const bar=Math.floor(index/4)%8,position=index%4,chord=pianoChords[bar];
- if(position===0){playPianoNote(chord[0]-12,when,.18,3.7);playPianoNote(chord[1],when+.18,.105,3.4);}
- if(position===2){playPianoNote(chord[2],when,.09,2.7);playPianoNote(chord[3],when+.18,.075,2.4);}
- const note=pianoMelody[index%pianoMelody.length];
- if(note!==null)playPianoNote(note,when+.08,.115,2.25);
+function chooseMusic(){
+ const track=pianoTracks[trackSelect.value]||pianoTracks.chopin;
+ classicalAudio.pause();
+ classicalAudio.src=track.url;
+ classicalAudio.load();
+ musicCredit.innerHTML="Music: "+track.description+" · performance by "+track.performer+
+  ' · <a href="'+track.page+'" target="_blank" rel="noopener noreferrer">recording ↗</a> '+
+  '(<a href="'+track.licenseUrl+'" target="_blank" rel="noopener noreferrer">'+track.license+"</a>) · Wikimedia Commons";
+ updateMusicUI("paused");
+ return track;
 }
-function pianoTick(){
- if(!pianoPlaying||!pianoContext)return;
- while(pianoNext<pianoContext.currentTime+1.1){
-  schedulePianoBeat(pianoBeat,pianoNext);
-  pianoBeat++;pianoNext+=pianoBeatSeconds;
- }
-}
-async function togglePiano(){
- if(pianoPlaying){
-  pianoPlaying=false;
-  if(pianoTimer){clearInterval(pianoTimer);pianoTimer=null}
-  const old=pianoContext;pianoContext=null;pianoMaster=null;pianoDelay=null;
-  if(old)try{await old.close()}catch(e){}
-  pianoButton.setAttribute("aria-pressed","false");
-  pianoButton.setAttribute("aria-label","Enable relaxing piano music");
-  q("#piano-status").textContent="PIANO OFF";
-  return;
- }
- const AudioCtor=window.AudioContext||window.webkitAudioContext;
- if(!AudioCtor){q("#piano-status").textContent="UNAVAILABLE";return}
+async function playClassicalPiano(){
  try{
-  const ctx=new AudioCtor();pianoContext=ctx;
-  await ctx.resume();
-  pianoMaster=ctx.createGain();pianoMaster.gain.value=.26;pianoMaster.connect(ctx.destination);
-  pianoDelay=ctx.createDelay(.7);pianoDelay.delayTime.value=.32;
-  const feedback=ctx.createGain();feedback.gain.value=.12;
-  const wet=ctx.createGain();wet.gain.value=.2;
-  pianoDelay.connect(feedback);feedback.connect(pianoDelay);
-  pianoDelay.connect(wet);wet.connect(pianoMaster);
-  pianoBeat=0;pianoNext=ctx.currentTime+.06;
-  pianoPlaying=true;
-  pianoTick();pianoTimer=setInterval(pianoTick,180);
-  pianoButton.setAttribute("aria-pressed","true");
-  pianoButton.setAttribute("aria-label","Disable relaxing piano music");
-  q("#piano-status").textContent="PIANO ON";
+  updateMusicUI("loading");
+  await classicalAudio.play();
+  updateMusicUI("playing");
  }catch(err){
-  console.warn("Unable to start audio:",err);
-  pianoPlaying=false;
-  q("#piano-status").textContent="AUDIO ERROR";
+  console.info("Background piano requires visitor interaction or network access:",err);
+  updateMusicUI("paused");
  }
 }
-if(pianoButton)pianoButton.addEventListener("click",togglePiano);
+function pauseClassicalPiano(){
+ classicalAudio.pause();
+ updateMusicUI("paused");
+}
+pianoButton.addEventListener("click",()=>{
+ if(!classicalAudio.paused){pauseClassicalPiano()}else{playClassicalPiano()}
+});
+trackSelect.addEventListener("change",()=>{
+ const wasPlaying=!classicalAudio.paused;
+ chooseMusic();
+ if(wasPlaying)playClassicalPiano();
+});
+classicalAudio.addEventListener("error",()=>updateMusicUI("error"));
+classicalAudio.addEventListener("playing",()=>updateMusicUI("playing"));
+classicalAudio.addEventListener("pause",()=>{if(classicalAudio.paused)updateMusicUI("paused")});
+chooseMusic();
+/* Attempt a quiet automatic start because the site owner requested it.
+   Modern browsers often block audible autoplay; the visible control remains usable. */
+if(!attemptedAutoPlay){
+ attemptedAutoPlay=true;
+ playClassicalPiano();
+}
 
 })();

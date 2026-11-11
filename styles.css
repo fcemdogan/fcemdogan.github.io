@@ -61,3 +61,16 @@
 @media(max-width:800px){.navrow{justify-content:flex-end}.navright{margin-left:auto}.pub-overview{grid-template-columns:1fr}.pub-metrics{grid-template-columns:repeat(3,1fr)}.pub-metric:first-child{grid-column:auto;min-height:150px}.pub-metric:first-child strong{font-size:51px}.pub-chart{padding:24px}.pub-era{grid-template-columns:100px 1fr}.pub-era-items{grid-template-columns:1fr}}
 @media(max-width:500px){.piano-toggle{padding:10px;gap:5px;font-size:9px}.piano-icon{font-size:15px}.navright{margin-left:auto}.pub-metrics{grid-template-columns:repeat(2,1fr)}.pub-metric:first-child{grid-column:1/-1;min-height:132px}.pub-metric{min-height:125px;padding:16px}.pub-chart{padding:17px}.pub-era{grid-template-columns:1fr;gap:0}.pub-era-heading{border-right:0;border-bottom:1px solid #dce4d8;padding:5px 4px 12px;flex-direction:row;align-items:center;justify-content:space-between;margin-bottom:14px}.pub-era-heading:after{width:7px;height:7px;top:auto;right:auto;left:0;bottom:-4px}.pub-card{min-height:160px;padding:18px}.pub-card h3{font-size:17px}.pub-card-meta{flex-direction:column;gap:3px}.piano-toggle #piano-status{font-size:9px}}
 @media(prefers-reduced-motion:reduce){.pub-bar-fill,.pub-card{transition:none}}
+
+/* Classical piano track selector and music source credit */
+.classical-music-controls{display:inline-flex;align-items:stretch;gap:0;border:1px solid #71809a66;border-radius:5px;overflow:hidden;white-space:nowrap}
+.classical-music-controls .piano-toggle{border:0;border-radius:0;padding:13px 12px}
+.classical-music-controls .piano-toggle:hover{border:0}
+.music-track{background:#1d2942;color:#e0e9f4;border:0;border-left:1px solid #71809a66;outline-offset:-2px;max-width:113px;min-width:85px;padding:0 17px 0 9px;font-size:10px;letter-spacing:.6px;font-weight:800;cursor:pointer}
+.music-track:hover,.music-track:focus-visible{background:#2b3c57}
+.music-track option{background:#1d2942;color:#fff}
+.music-credit{font-size:11px;color:#a8b5c5;margin:18px 0 0;line-height:1.8;letter-spacing:.1px}
+.music-credit a{color:#d3ff8a;text-decoration:underline;text-decoration-color:#d3ff8a77;text-underline-offset:3px}
+.music-credit a:hover{color:#fff}
+@media(max-width:800px){.music-track{max-width:95px;min-width:74px;padding-left:5px;font-size:9px}.classical-music-controls .piano-toggle{padding:11px 9px}}
+@media(max-width:500px){.classical-music-controls .piano-toggle{padding:10px 7px}.music-track{max-width:78px;min-width:70px;padding:0 14px 0 4px;font-size:8px}.music-credit{font-size:10px}.navright{gap:6px}}

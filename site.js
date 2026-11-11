@@ -8,18 +8,20 @@ function pubView(){
   (String(p.title)+" "+String(p.journal)+" "+String(p.authors||"")).toLocaleLowerCase().includes(term));
  const annual=new Map();
  for(const p of pubs)annual.set(p.year,(annual.get(p.year)||0)+1);
- const years=[...annual.keys()].sort((a,b)=>b-a),max=Math.max(1,...annual.values());
+ const years=[...annual.keys()].sort((a,b)=>a-b),max=Math.max(1,...annual.values());
+ const latestYear=years.length?years[years.length-1]:"—";
  q("#pub-metrics").innerHTML=
   '<div class="pub-metric"><span>LISTED PUBLICATIONS</span><strong>'+pubs.length+'</strong><small>DOI-linked academic records</small></div>'+
   '<div class="pub-metric"><span>PUBLICATION YEARS</span><strong>'+years.length+'</strong><small>Years represented in this list</small></div>'+
-  '<div class="pub-metric"><span>MOST RECENT YEAR</span><strong>'+(years[0]||"—")+'</strong><small>Latest year in these records</small></div>';
+  '<div class="pub-metric"><span>MOST RECENT YEAR</span><strong>'+latestYear+'</strong><small>Latest year in these records</small></div>';
  q("#pub-year-bars").innerHTML=years.map(year=>{
-  const count=annual.get(year),width=Math.max(9,Math.round(count/max*100));
-  return '<button class="pub-year-row'+(chosenYear===String(year)?' is-active':'')+
-   '" type="button" data-pub-year="'+year+'" aria-pressed="'+String(chosenYear===String(year))+
-   '" aria-label="Filter to '+year+', '+count+' listed works"><span class="pub-bar-label">'+year+'</span>'+
-   '<span class="pub-bar-track"><span class="pub-bar-fill" style="width:'+width+'%"></span></span>'+
-   '<span class="pub-bar-count">'+count+'</span></button>';
+  const count=annual.get(year),height=Math.max(22,Math.round(count/max*168)),active=chosenYear===String(year);
+  return '<button class="pub-year-col'+(active?' is-active':'')+'" type="button" data-pub-year="'+year+
+   '" aria-pressed="'+String(active)+'" title="Show '+count+' publication'+(count===1?'':'s')+' from '+year+
+   '"><span class="pub-year-value">'+String(count).padStart(2,"0")+'</span>'+
+   '<span class="pub-year-pillar-wrap"><span class="pub-year-pillar" style="height:'+height+'px">'+
+   '<span class="pub-pillar-shine"></span></span></span>'+
+   '<span class="pub-year-label">'+year+'</span></button>';
  }).join("");
  const grouped=new Map();for(const p of matched){if(!grouped.has(p.year))grouped.set(p.year,[]);grouped.get(p.year).push(p);}
  q("#publication-list").innerHTML=[...grouped.entries()].map(([year,items])=>
@@ -48,82 +50,94 @@ function courseView(){let y=q("#courseyear").value,a=courses.filter(c=>y==="all"
 q("#pubsearch").addEventListener("input",pubView);q("#yearfilter").addEventListener("change",pubView);q("#courseyear").addEventListener("change",courseView);
 let menu=q("#menu");q("#menubtn").addEventListener("click",()=>{let o=menu.classList.toggle("open");q("#menubtn").setAttribute("aria-expanded",String(o))});menu.querySelectorAll("a").forEach(a=>a.addEventListener("click",()=>{menu.classList.remove("open");q("#menubtn").setAttribute("aria-expanded","false")}));
 
-/* Piano performances from Wikimedia Commons: Chopin (CC0, Peter Johnston) and
-   Beethoven (CC BY 2.5, Juan Felipe Arjona). MP3 transcoded by Wikimedia Commons.
-   Play at low volume and loop. Autoplay is attempted but may be browser-blocked. */
-const pianoButton=q("#piano-toggle");
-const trackSelect=q("#music-track");
-const musicCredit=q("#music-credit");
+/* Wikimedia Commons recordings: Chopin (Peter Johnston, CC0) and Beethoven
+   (Juan Felipe Arjona, CC BY 2.5). Browsers may block audible autoplay until interaction. */
+const pianoButton=q("#piano-toggle"),trackSelect=q("#music-track"),musicCredit=q("#music-credit");
 const pianoTracks={
  chopin:{
-  url:"https://upload.wikimedia.org/wikipedia/commons/transcoded/0/04/Chopin_Nocturne_No._2_in_E_Flat_Major%2C_Op._9.ogg/Chopin_Nocturne_No._2_in_E_Flat_Major%2C_Op._9.ogg.mp3",
-  description:"Frédéric Chopin, Nocturne in E-flat major, Op. 9 No. 2",
-  performer:"Peter Johnston",license:"CC0",
-  page:"https://commons.wikimedia.org/wiki/File:Chopin_Nocturne_No._2_in_E_Flat_Major,_Op._9.ogg",
-  licenseUrl:"https://creativecommons.org/publicdomain/zero/1.0/"
+  mp3:"https://upload.wikimedia.org/wikipedia/commons/transcoded/0/04/Chopin_Nocturne_No._2_in_E_Flat_Major%2C_Op._9.ogg/Chopin_Nocturne_No._2_in_E_Flat_Major%2C_Op._9.ogg.mp3",
+  ogg:"https://upload.wikimedia.org/wikipedia/commons/0/04/Chopin_Nocturne_No._2_in_E_Flat_Major%2C_Op._9.ogg",
+  description:"Frédéric Chopin, Nocturne No. 2 in E-flat major, Op. 9",
+  performer:"Peter Johnston",license:"CC0",licenseUrl:"https://creativecommons.org/publicdomain/zero/1.0/",
+  page:"https://commons.wikimedia.org/wiki/File:Chopin_Nocturne_No._2_in_E_Flat_Major,_Op._9.ogg"
  },
  beethoven:{
-  url:"https://upload.wikimedia.org/wikipedia/commons/transcoded/f/f0/Moonlight.ogg/Moonlight.ogg.mp3",
+  mp3:"https://upload.wikimedia.org/wikipedia/commons/transcoded/f/f0/Moonlight.ogg/Moonlight.ogg.mp3",
+  ogg:"https://upload.wikimedia.org/wikipedia/commons/f/f0/Moonlight.ogg",
   description:"Ludwig van Beethoven, Moonlight Sonata, 1st movement",
-  performer:"Juan Felipe Arjona",license:"CC BY 2.5",
-  page:"https://commons.wikimedia.org/wiki/File:Moonlight.ogg",
-  licenseUrl:"https://creativecommons.org/licenses/by/2.5/"
+  performer:"Juan Felipe Arjona",license:"CC BY 2.5",licenseUrl:"https://creativecommons.org/licenses/by/2.5/",
+  page:"https://commons.wikimedia.org/wiki/File:Moonlight.ogg"
  }
 };
-const classicalAudio=new Audio();
-classicalAudio.loop=true;
-classicalAudio.volume=.16;
-classicalAudio.preload="none";
-classicalAudio.setAttribute("playsinline","");
-let attemptedAutoPlay=false;
-function updateMusicUI(status){
- const playing=status==="playing";
- pianoButton.setAttribute("aria-pressed",String(playing));
- pianoButton.setAttribute("aria-label",playing?"Pause background classical piano":"Play background classical piano");
- q("#piano-status").textContent=status==="loading"?"LOADING…":status==="error"?"TRY AGAIN":playing?"PIANO ON":"PIANO OFF";
+const pianoAudio=new Audio();pianoAudio.loop=true;pianoAudio.volume=.18;pianoAudio.preload="metadata";
+pianoAudio.setAttribute("playsinline","");
+let alternateAudio=false,wantsMusic=true,pausedByVisitor=false,startOnGesture=false,autoAttempted=false;
+const currentTrack=()=>pianoTracks[trackSelect.value]||pianoTracks.chopin;
+const musicState=(state)=>{
+ pianoButton.setAttribute("aria-pressed",String(state==="playing"));
+ const label=q("#piano-status");
+ if(state==="playing"){label.textContent="PIANO ON";pianoButton.setAttribute("aria-label","Pause relaxing piano music");}
+ else if(state==="loading"){label.textContent="LOADING…";pianoButton.setAttribute("aria-label","Relaxing piano is loading");}
+ else if(state==="error"){label.textContent="MUSIC ERROR";pianoButton.setAttribute("aria-label","Piano recording unavailable");}
+ else{label.textContent="PLAY PIANO";pianoButton.setAttribute("aria-label","Play relaxing Chopin or Beethoven piano");}
+};
+function loadTrack(restarting=false){
+ const t=currentTrack();
+ if(!restarting){alternateAudio=false;pianoAudio.pause();}
+ const useOriginal=alternateAudio&&pianoAudio.canPlayType("audio/ogg");
+ pianoAudio.src=useOriginal?t.ogg:t.mp3;
+ pianoAudio.load();
+ if(musicCredit)musicCredit.innerHTML="Music: "+t.description+" · "+t.performer+
+  ' · <a href="'+t.page+'" target="_blank" rel="noopener noreferrer">recording ↗</a>'+
+  ' (<a href="'+t.licenseUrl+'" target="_blank" rel="noopener noreferrer">'+t.license+"</a>) · Wikimedia Commons";
+ musicState("paused");
 }
-function chooseMusic(){
- const track=pianoTracks[trackSelect.value]||pianoTracks.chopin;
- classicalAudio.pause();
- classicalAudio.src=track.url;
- classicalAudio.load();
- musicCredit.innerHTML="Music: "+track.description+" · performance by "+track.performer+
-  ' · <a href="'+track.page+'" target="_blank" rel="noopener noreferrer">recording ↗</a> '+
-  '(<a href="'+track.licenseUrl+'" target="_blank" rel="noopener noreferrer">'+track.license+"</a>) · Wikimedia Commons";
- updateMusicUI("paused");
- return track;
-}
-async function playClassicalPiano(){
+async function attemptPianoPlayback(){
+ if(!wantsMusic)return;
  try{
-  updateMusicUI("loading");
-  await classicalAudio.play();
-  updateMusicUI("playing");
+  musicState("loading");
+  await pianoAudio.play();
+  musicState("playing");
+  startOnGesture=false;
  }catch(err){
-  console.info("Background piano requires visitor interaction or network access:",err);
-  updateMusicUI("paused");
+  console.info("Piano sound requires a user gesture or a working audio connection:",err);
+  startOnGesture=true;
+  musicState("paused");
  }
 }
-function pauseClassicalPiano(){
- classicalAudio.pause();
- updateMusicUI("paused");
-}
 pianoButton.addEventListener("click",()=>{
- if(!classicalAudio.paused){pauseClassicalPiano()}else{playClassicalPiano()}
+ if(!pianoAudio.paused){
+  pausedByVisitor=true;wantsMusic=false;startOnGesture=false;
+  pianoAudio.pause();musicState("paused");
+ }else{
+  pausedByVisitor=false;wantsMusic=true;attemptPianoPlayback();
+ }
 });
 trackSelect.addEventListener("change",()=>{
- const wasPlaying=!classicalAudio.paused;
- chooseMusic();
- if(wasPlaying)playClassicalPiano();
+ const shouldPlay=wantsMusic&&!pausedByVisitor;
+ loadTrack();
+ if(shouldPlay)attemptPianoPlayback();
 });
-classicalAudio.addEventListener("error",()=>updateMusicUI("error"));
-classicalAudio.addEventListener("playing",()=>updateMusicUI("playing"));
-classicalAudio.addEventListener("pause",()=>{if(classicalAudio.paused)updateMusicUI("paused")});
-chooseMusic();
-/* Attempt a quiet automatic start because the site owner requested it.
-   Modern browsers often block audible autoplay; the visible control remains usable. */
-if(!attemptedAutoPlay){
- attemptedAutoPlay=true;
- playClassicalPiano();
+pianoAudio.addEventListener("playing",()=>musicState("playing"));
+pianoAudio.addEventListener("pause",()=>{if(pianoAudio.paused)musicState("paused")});
+pianoAudio.addEventListener("error",()=>{
+ if(!alternateAudio&&pianoAudio.canPlayType("audio/ogg")){
+  alternateAudio=true;loadTrack(true);
+  if(wantsMusic)attemptPianoPlayback();
+ }else{
+  musicState("error");
+ }
+});
+/* A browser gesture can unblock an earlier automatic-play attempt.
+   This listener is removed after the first attempt or when music is explicitly paused. */
+function resumeMusicFromGesture(){
+ if(!startOnGesture||pausedByVisitor)return;
+ startOnGesture=false;
+ attemptPianoPlayback();
 }
+document.addEventListener("pointerdown",resumeMusicFromGesture,{passive:true});
+document.addEventListener("keydown",resumeMusicFromGesture);
+loadTrack();
+if(!autoAttempted){autoAttempted=true;attemptPianoPlayback();}
 
 })();

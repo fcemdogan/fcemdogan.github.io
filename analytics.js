@@ -5,8 +5,8 @@
 const ids={daily:"visitors-daily",weekly:"visitors-weekly",monthly:"visitors-monthly"};
 const status=document.getElementById("visitor-status");
 const values=Object.fromEntries(Object.entries(ids).map(([k,id])=>[k,document.getElementById(id)]));
-if(!status||Object.values(values).some(v=>!v))return;
-const setStatus=s=>status.textContent=s;
+const hasPanel=!!status&&Object.values(values).every(Boolean);
+const setStatus=s=>{if(status)status.textContent=s};
 function istanbulDate(){
  const p=new Intl.DateTimeFormat("en-GB",{timeZone:"Europe/Istanbul",year:"numeric",month:"2-digit",day:"2-digit"}).formatToParts(new Date());
  const get=k=>p.find(x=>x.type===k)?.value;
@@ -50,6 +50,7 @@ async function init(){
   }
   /* The public counter must also be enabled in GoatCounter settings. */
   installTracker(cfg.siteCode);
+  if(!hasPanel)return;
   setStatus("Loading live visit counts…");
   const periods=dates(),path=cfg.path==="TOTAL"?"TOTAL":"/";
   const stats=await Promise.allSettled(Object.keys(ids).map(k=>countFor(cfg.siteCode,path,periods[k])));

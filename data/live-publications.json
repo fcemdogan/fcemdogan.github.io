@@ -1,14 +1,7 @@
 {
-  "updated": "2026-11-11",
-  "source": "Verified DOI list (baseline)",
+  "updated": "2026-11-12",
+  "source": "Verified DOIs + OpenAlex ORCID matching",
   "items": [
-    {
-      "year": 2026,
-      "title": "Global Value Chain Exposure and Growth Vulnerability: Evidence from G20 Economies",
-      "journal": "Economics",
-      "authors": "Fırat Cem Doğan, Nuran Akdağ",
-      "doi": "10.2478/eoik-2026-0048"
-    },
     {
       "year": 2026,
       "title": "Balancing economic security, economic growth, and sustainable stability as pillars of G20 states",
@@ -18,10 +11,31 @@
     },
     {
       "year": 2026,
-      "title": "The Impact of Economic Freedom, Innovation, and Exports on Growth: An Empirical Study on Emerging Economies",
-      "journal": "Journal of Economic Integration",
+      "title": "Foreign trade, human capital and economic growth dynamics: The case of MINT Countries",
+      "journal": "ODÜ Social Sciences Research Journal",
       "authors": "Fırat Cem Doğan",
-      "doi": "10.11130/jei.2025022"
+      "doi": "10.48146/odusobiad.1943274"
+    },
+    {
+      "year": 2026,
+      "title": "Gelir Eşitsizliği, Karbon Emisyonları ve Ekonomik Büyüme: Dünyanın En Yüksek CO2 Salınımı Yapan Ekonomilerine İlişkin Ampirik Bulgular",
+      "journal": "Maliye Finans Yazıları",
+      "authors": "Fırat Cem Doğan",
+      "doi": "10.33203/mfy.1836995"
+    },
+    {
+      "year": 2026,
+      "title": "Global Value Chain Exposure and Growth Vulnerability: Evidence from G20 Economies",
+      "journal": "Economics",
+      "authors": "Fırat Cem Doğan, Nuran Akdağ",
+      "doi": "10.2478/eoik-2026-0048"
+    },
+    {
+      "year": 2026,
+      "title": "Merkez Bankası, Dijital Paralar ve Regülasyonlar",
+      "journal": "Özgür Yayınları eBooks",
+      "authors": "Fırat Cem Doğan",
+      "doi": "10.58830/ozgur.pub1233.c4983"
     },
     {
       "year": 2026,
@@ -39,6 +53,13 @@
     },
     {
       "year": 2026,
+      "title": "The Impact of Economic Freedom, Innovation, and Exports on Growth: An Empirical Study on Emerging Economies",
+      "journal": "Journal of Economic Integration",
+      "authors": "Fırat Cem Doğan",
+      "doi": "10.11130/jei.2025022"
+    },
+    {
+      "year": 2026,
       "title": "The impact of environmental taxes, economic growth and industrialization on carbon emissions: an empirical analysis on selected countries",
       "journal": "Economics and Environment",
       "authors": "Fırat Cem Doğan",
@@ -46,24 +67,24 @@
     },
     {
       "year": 2026,
+      "title": "Water, Food Inflation and the Poverty Channel Evidence from Highly Water Stress Economies",
+      "journal": "SSRN Electronic Journal",
+      "authors": "Fırat Cem Doğan",
+      "doi": "10.2139/ssrn.7545937"
+    },
+    {
+      "year": 2026,
+      "title": "Water, Food Inflation and the Poverty Channel Evidence from Highly Water Stress Economies",
+      "journal": "SSRN Electronic Journal",
+      "authors": "Fırat Cem Doğan",
+      "doi": "10.2139/ssrn.7547961"
+    },
+    {
+      "year": 2026,
       "title": "Will Technological Developments Disrupt Income Distribution in the Near Future?",
       "journal": "Sosyoekonomi",
       "authors": "Fırat Cem Doğan, Nuran Akdağ",
       "doi": "10.17233/sosyoekonomi.2026.01.16"
-    },
-    {
-      "year": 2026,
-      "title": "Foreign trade, human capital and economic growth dynamics: The case of MINT Countries",
-      "journal": "ODÜ Social Sciences Research Journal",
-      "authors": "Fırat Cem Doğan",
-      "doi": "10.48146/odusobiad.1943274"
-    },
-    {
-      "year": 2026,
-      "title": "Gelir Eşitsizliği, Karbon Emisyonları ve Ekonomik Büyüme: Dünyanın En Yüksek CO2 Salınımı Yapan Ekonomilerine İlişkin Ampirik Bulgular",
-      "journal": "Maliye Finans Yazıları",
-      "authors": "Fırat Cem Doğan",
-      "doi": "10.33203/mfy.1836995"
     },
     {
       "year": 2025,
@@ -74,17 +95,38 @@
     },
     {
       "year": 2025,
+      "title": "Gelir Eşitsizliği, Ekonomik Büyüme ve Suç İlişkisi: Güney ve Latin Amerika Üzerine Ampirik Bir İnceleme",
+      "journal": "Uluslararası Ekonomi ve Yenilik Dergisi",
+      "authors": "Fırat Cem Doğan",
+      "doi": "10.20979/ueyd.1624384"
+    },
+    {
+      "year": 2025,
       "title": "Türkiye’de Enflasyon ve İşsizlik İlişkisi: Teorik ve Ampirik Bir İnceleme",
       "journal": "Çalışma ve Toplum",
       "authors": "Fırat Cem Doğan",
       "doi": "10.54752/ct.1689546"
     },
     {
-      "year": 2025,
-      "title": "Gelir Eşitsizliği, Ekonomik Büyüme ve Suç İlişkisi: Güney ve Latin Amerika Üzerine Ampirik Bir İnceleme",
-      "journal": "Uluslararası Ekonomi ve Yenilik Dergisi",
+      "year": 2024,
+      "title": "Future of Humanity",
+      "journal": "Advances in logistics, operations, and management science book series",
+      "authors": "Fırat Cem Doğan, Mehmet Hanifi Aslan",
+      "doi": "10.4018/979-8-3693-0908-7.ch014"
+    },
+    {
+      "year": 2024,
+      "title": "The Economic Impacts of Climate Change",
+      "journal": "Advances in environmental engineering and green technologies book series",
       "authors": "Fırat Cem Doğan",
-      "doi": "10.20979/ueyd.1624384"
+      "doi": "10.4018/979-8-3693-5792-7.ch006"
+    },
+    {
+      "year": 2023,
+      "title": "Pozitif Eğilimli Bir Philips Eğrisi Mümkün Mü?",
+      "journal": "Akademik Açı",
+      "authors": "Fırat Cem Doğan, Mehmet Hanifi Aslan",
+      "doi": "10.59597/akademikaci.1340755"
     },
     {
       "year": 2023,
@@ -94,11 +136,11 @@
       "doi": "10.7769/gesec.v14i9.2549"
     },
     {
-      "year": 2023,
-      "title": "Pozitif Eğilimli Bir Philips Eğrisi Mümkün Mü?",
-      "journal": "Akademik Açı",
-      "authors": "Fırat Cem Doğan, Mehmet Hanifi Aslan",
-      "doi": "10.59597/akademikaci.1340755"
+      "year": 2020,
+      "title": "SAVUNMA HARCAMALARI İLE EKONOMİK BÜYÜME ARASINDAKİ İLİŞKİNİN ANALİZİ: G8 ÖRNEĞİ",
+      "journal": "Akademik Araştırmalar ve Çalışmalar Dergisi (AKAD)",
+      "authors": "Zeynep KÖSE, Filiz Gölpek, Fırat Cem Doğan",
+      "doi": "10.20990/kilisiibfakademik.596690"
     },
     {
       "year": 2019,

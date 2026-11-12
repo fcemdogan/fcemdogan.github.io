@@ -1,6 +1,6 @@
 {
-  "updated": "2026-11-11",
-  "source": "HKÜ faculty profile (baseline)",
+  "updated": "2026-11-12",
+  "source": "HKÜ official faculty profile (YÖKSİS records)",
   "items": [
     {
       "title_en": "Behavioral Finance",
@@ -10,14 +10,14 @@
       "academic_year": "2025–2026"
     },
     {
-      "title_en": "Macroeconomics",
+      "title_en": "Makro İktisat",
       "title_tr": "Makro İktisat",
       "level_en": "Undergraduate",
       "level_tr": "Lisans",
       "academic_year": "2025–2026"
     },
     {
-      "title_en": "Economics II",
+      "title_en": "İktisat II",
       "title_tr": "İktisat II",
       "level_en": "Undergraduate",
       "level_tr": "Lisans",
@@ -38,21 +38,21 @@
       "academic_year": "2025–2026"
     },
     {
-      "title_en": "Political Economy",
+      "title_en": "Politik İktisat",
       "title_tr": "Politik İktisat",
       "level_en": "Undergraduate",
       "level_tr": "Lisans",
       "academic_year": "2025–2026"
     },
     {
-      "title_en": "Economics I",
+      "title_en": "İktisat I",
       "title_tr": "İktisat I",
       "level_en": "Undergraduate",
       "level_tr": "Lisans",
       "academic_year": "2025–2026"
     },
     {
-      "title_en": "Microeconomics",
+      "title_en": "Mikro İktisat",
       "title_tr": "Mikro İktisat",
       "level_en": "Undergraduate",
       "level_tr": "Lisans",
@@ -66,21 +66,21 @@
       "academic_year": "2024–2025"
     },
     {
-      "title_en": "Economics II",
+      "title_en": "İktisat II",
       "title_tr": "İktisat II",
       "level_en": "Undergraduate",
       "level_tr": "Lisans",
       "academic_year": "2024–2025"
     },
     {
-      "title_en": "Economics I",
+      "title_en": "İktisat I",
       "title_tr": "İktisat I",
       "level_en": "Undergraduate",
       "level_tr": "Lisans",
       "academic_year": "2024–2025"
     },
     {
-      "title_en": "Institutional Economics",
+      "title_en": "Kurumsal İktisat",
       "title_tr": "Kurumsal İktisat",
       "level_en": "Undergraduate",
       "level_tr": "Lisans",

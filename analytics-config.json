@@ -1,6 +1,6 @@
 {
   "provider": "goatcounter",
-  "siteCode": "",
+  "siteCode": "fcemdogan",
   "path": "TOTAL",
-  "enabled": false
+  "enabled": true
 }

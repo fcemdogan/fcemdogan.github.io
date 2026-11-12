@@ -27,9 +27,10 @@ async function countFor(site,path,start){
   const response=await fetch(url,{cache:"no-store",mode:"cors",signal:controller.signal});
   if(!response.ok)throw Error("Analytics response "+response.status);
   const json=await response.json();
-  const n=typeof json.count==="number"?json.count:Number(String(json.count??"").replace(/[^\d]/g,""));
+  const raw=typeof json.count==="string"?json.count.replace(/[,\s]/g,""):json.count;
+  const n=typeof raw==="number"||(typeof raw==="string"&&/^\d+$/.test(raw))?Number(raw):NaN;
   if(!Number.isFinite(n)||n<0)throw Error("Invalid visit count");
-  return n.toLocaleString("en-US");
+  return n;
  }finally{clearTimeout(timeout)}
 }
 function installTracker(site){
@@ -54,10 +55,20 @@ async function init(){
   setStatus("Loading live visit counts…");
   const periods=dates(),path=cfg.path==="TOTAL"?"TOTAL":"/";
   const stats=await Promise.allSettled(Object.keys(ids).map(k=>countFor(cfg.siteCode,path,periods[k])));
-  let ok=0;Object.keys(ids).forEach((k,i)=>{
-   if(stats[i].status==="fulfilled"){values[k].textContent=stats[i].value;ok++}
-   else values[k].textContent="—";
+  const counts=stats.filter(result=>result.status==="fulfilled");
+  const max=Math.max(1,...counts.map(result=>result.value));
+  Object.keys(ids).forEach((k,i)=>{
+   if(stats[i].status!=="fulfilled")return;
+   const count=stats[i].value;
+   const value=values[k];
+   value.textContent=count.toLocaleString("en-US");
+   const track=value.nextElementSibling;
+   if(track?.classList.contains("visitor-track")){
+    track.firstElementChild.style.width=(100*count/max)+"%";
+    track.hidden=false;
+   }
   });
+  const ok=counts.length;
   setStatus(ok===3?"Live site visits · Istanbul time · updated periodically":ok?"Some visit counts are temporarily unavailable.":"Visitor numbers are temporarily unavailable.");
  }catch(e){
   console.warn("Visitor analytics:",e);

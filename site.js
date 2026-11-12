@@ -50,37 +50,102 @@ function courseView(){let y=q("#courseyear").value,a=courses.filter(c=>y==="all"
 q("#pubsearch").addEventListener("input",pubView);q("#yearfilter").addEventListener("change",pubView);q("#courseyear").addEventListener("change",courseView);
 let menu=q("#menu");q("#menubtn").addEventListener("click",()=>{let o=menu.classList.toggle("open");q("#menubtn").setAttribute("aria-expanded",String(o))});menu.querySelectorAll("a").forEach(a=>a.addEventListener("click",()=>{menu.classList.remove("open");q("#menubtn").setAttribute("aria-expanded","false")}));
 
-const musicButton=q("#piano-toggle"), musicSelect=q("#music-track");
-const musicStatus=q("#music-status");
-if(musicButton && musicSelect && musicStatus){
+/* The same MP3 recordings uploaded by the site owner to the site-audio release.
+   Prefer small, same-origin, streaming-optimized copies when available.
+   If the optimized files have not been published, try the originals in the release.
+   Do not try audible autoplay: browsers, especially iOS Safari, require a tap. */
+const musicButton=q("#piano-toggle"),musicSelect=q("#music-track"),musicStatus=q("#music-status");
+if(musicButton&&musicSelect&&musicStatus){
+ const release="https://github.com/fcemdogan/fcemdogan.github.io/releases/download/site-audio/";
+ const tracks={
+  interstellar:["./assets/audio/interstellar.mp3",release+"interstellar.mp3"],
+  valse:["./assets/audio/valse.mp3",release+"valse.mp3"]
+ };
  const audio=new Audio();
  audio.preload="none";
  audio.loop=true;
- audio.volume=0.18;
-
- function selectMusic(){
-  audio.src="https://github.com/fcemdogan/fcemdogan.github.io/releases/download/site-audio/"+musicSelect.value+".mp3";
+ audio.volume=0.32;
+ audio.setAttribute("playsinline","");
+ let currentTrack=musicSelect.value in tracks?musicSelect.value:"interstellar";
+ let sourceIndex=0,attempt=0,playRequested=false,timeoutId=null;
+ function status(value){
+  musicStatus.textContent=value;
+  musicButton.setAttribute("aria-pressed",String(value==="PAUSE"));
+  musicButton.setAttribute("aria-label",value==="PAUSE"?"Pause music":"Play "+currentTrack+" music");
+  musicButton.title=value==="RETRY"?"Audio loading failed. Tap to retry.":currentTrack.toUpperCase();
  }
- function updateMusicButton(){
-  musicButton.setAttribute("aria-pressed",String(!audio.paused));
-  musicStatus.textContent=audio.paused?"PLAY":"PAUSE";
+ function clearWatch(){if(timeoutId){clearTimeout(timeoutId);timeoutId=null}}
+ function setSource(){
+  audio.pause();
+  const path=tracks[currentTrack][sourceIndex];
+  audio.src=path;
+  audio.load();
  }
- async function playMusic(){
-  if(!audio.getAttribute("src"))selectMusic();
-  try{
-   await audio.play();
-  }catch(error){
-   if(error.name!=="AbortError")musicStatus.textContent="RETRY";
+ function fallback(){
+  if(!playRequested)return;
+  clearWatch();
+  attempt++;
+  if(sourceIndex+1<tracks[currentTrack].length){
+   sourceIndex++;
+   setSource();
+   playCurrent();
+  }else{
+   playRequested=false;
+   audio.pause();
+   status("RETRY");
+   console.warn("No playable audio source for",currentTrack);
   }
  }
- musicButton.addEventListener("click",()=>audio.paused?playMusic():audio.pause());
- musicSelect.addEventListener("change",()=>{
-  const wasPlaying=!audio.paused;
-  selectMusic();
-  if(wasPlaying)playMusic();
-  else updateMusicButton();
+ function playCurrent(){
+  if(!playRequested)return;
+  const token=++attempt;
+  status("LOADING");
+  if(!audio.src){setSource()}
+  clearWatch();
+  timeoutId=setTimeout(()=>{if(token===attempt&&playRequested&&audio.readyState<2)fallback()},17000);
+  const p=audio.play();
+  if(p&&typeof p.then==="function"){
+   p.then(()=>{
+    if(token!==attempt)return;
+    clearWatch();
+    status("PAUSE");
+   }).catch(err=>{
+    if(token!==attempt)return;
+    if(err.name==="AbortError")return;
+    if(err.name==="NotAllowedError"){
+     clearWatch();playRequested=false;status("PLAY");
+     return;
+    }
+    console.warn("Audio source failed:",err);
+    fallback();
+   });
+  }
+ }
+ musicButton.addEventListener("click",()=>{
+  if(playRequested){
+   playRequested=false;attempt++;clearWatch();
+   audio.pause();status("PLAY");
+  }else{
+   playRequested=true;
+   if(sourceIndex>=tracks[currentTrack].length)sourceIndex=0;
+   playCurrent();
+  }
  });
- audio.addEventListener("playing",updateMusicButton);
- audio.addEventListener("pause",updateMusicButton);
+ musicSelect.addEventListener("change",()=>{
+  const wasPlaying=playRequested;
+  playRequested=false;attempt++;clearWatch();
+  currentTrack=musicSelect.value in tracks?musicSelect.value:"interstellar";
+  sourceIndex=0;
+  setSource();status("PLAY");
+  if(wasPlaying){playRequested=true;playCurrent()}
+ });
+ audio.addEventListener("playing",()=>{if(playRequested){clearWatch();status("PAUSE")}});
+ audio.addEventListener("waiting",()=>{if(playRequested)status("LOADING")});
+ audio.addEventListener("pause",()=>{if(!playRequested)status("PLAY")});
+ audio.addEventListener("error",()=>{if(playRequested)fallback()});
+ audio.addEventListener("stalled",()=>{if(playRequested)status("LOADING")});
+ musicSelect.value=currentTrack;
+ status("PLAY");
 }
+
 })();

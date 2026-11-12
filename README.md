@@ -12,7 +12,7 @@ Institution: Hasan Kalyoncu University, Department of Banking and Insurance.
 - Dedicated printable academic CV at /cv.html. Use browser Print → Save as PDF.
 - DOI-linked selected publications with search/year filtering.
 - HKÜ course records (14 as of 11 November 2026), with academic-year filtering.
-- Links to Scopus (Author ID 59063154900), ORCID, YÖK Akademik, HKÜ.
+- Links to Scopus (Author ID 59063154900), Web of Science (Researcher ID ITV-3612-2023), ORCID, YÖK Akademik, HKÜ.
 - School portrait is referenced from an external HKÜ web address. **The hotlink cannot be guaranteed**; if unavailable, FCD initials appear as a fallback. Verify the picture on the live website and upload a locally saved official headshot if necessary.
 
 ## Automatic updates
@@ -43,6 +43,7 @@ Updater: `scripts/update_academic_data.py`
 
 - https://profil.hku.edu.tr/akademik/firat-cem-dogan/
 - https://www.scopus.com/authid/detail.uri?authorId=59063154900
+- https://www.webofscience.com/wos/author/record/ITV-3612-2023
 - https://orcid.org/0000-0002-2398-1484
 - https://akademik.yok.gov.tr/academician-details?authorGuidId=477B29C74BDA99ED
 

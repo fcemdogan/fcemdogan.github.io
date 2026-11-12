@@ -2,6 +2,8 @@
 
 **Website:** https://fcemdogan.github.io/  
 **Repository:** https://github.com/fcemdogan/fcemdogan.github.io
+**Primary canonical domain:** https://firatcemdogan.com/
+**Additional forwarded domain:** https://firatcemdogan.com.tr/ (domain-owner configured forwarding; verify forwarding with your registrar)
 
 Academic name: **Asst. Prof. Dr. Fırat Cem Doğan**  
 Institution: Hasan Kalyoncu University, Department of Banking and Insurance.
@@ -115,3 +117,18 @@ and commit the file. All text is rendered safely rather than interpreted as HTML
 Each blog post has its own shareable link:
 `https://fcemdogan.github.io/blogs.html?post=your-post-slug`.
 Multiple posts can be placed in the `posts` array, newest first by date.
+
+## Additional .com.tr domain
+
+The homepage, CV and Blogs pages now link to `https://firatcemdogan.com.tr/`
+when visitors want to use the additional domain. The primary Pages CNAME remains
+`firatcemdogan.com`, and the canonical, Open Graph, structured-data and sitemap
+URLs intentionally remain on `https://firatcemdogan.com/` to avoid splitting SEO
+signals between multiple public hostnames.
+
+To use both domains correctly, configure a **permanent HTTP 301 or 308 redirect**
+from `https://firatcemdogan.com.tr/` (and optionally its www variant) to
+`https://firatcemdogan.com/` in the .com.tr registrar's forwarding service,
+including working HTTPS. GitHub Pages supports only one CNAME custom domain
+per site. The redirect cannot be established by adding an HTML link alone and
+must be verified at the domain-forwarding provider.

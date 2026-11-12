@@ -50,96 +50,31 @@ function courseView(){let y=q("#courseyear").value,a=courses.filter(c=>y==="all"
 q("#pubsearch").addEventListener("input",pubView);q("#yearfilter").addEventListener("change",pubView);q("#courseyear").addEventListener("change",courseView);
 let menu=q("#menu");q("#menubtn").addEventListener("click",()=>{let o=menu.classList.toggle("open");q("#menubtn").setAttribute("aria-expanded",String(o))});menu.querySelectorAll("a").forEach(a=>a.addEventListener("click",()=>{menu.classList.remove("open");q("#menubtn").setAttribute("aria-expanded","false")}));
 
-/* Wikimedia Commons recordings: Chopin (Peter Johnston, CC0) and Beethoven
-   (Juan Felipe Arjona, CC BY 2.5). Browsers may block audible autoplay until interaction. */
-const pianoButton=q("#piano-toggle"),trackSelect=q("#music-track"),musicCredit=q("#music-credit");
-const pianoTracks={
- chopin:{
-  mp3:"https://upload.wikimedia.org/wikipedia/commons/transcoded/0/04/Chopin_Nocturne_No._2_in_E_Flat_Major%2C_Op._9.ogg/Chopin_Nocturne_No._2_in_E_Flat_Major%2C_Op._9.ogg.mp3",
-  ogg:"https://upload.wikimedia.org/wikipedia/commons/0/04/Chopin_Nocturne_No._2_in_E_Flat_Major%2C_Op._9.ogg",
-  description:"Frédéric Chopin, Nocturne No. 2 in E-flat major, Op. 9",
-  performer:"Peter Johnston",license:"CC0",licenseUrl:"https://creativecommons.org/publicdomain/zero/1.0/",
-  page:"https://commons.wikimedia.org/wiki/File:Chopin_Nocturne_No._2_in_E_Flat_Major,_Op._9.ogg"
- },
- beethoven:{
-  mp3:"https://upload.wikimedia.org/wikipedia/commons/transcoded/f/f0/Moonlight.ogg/Moonlight.ogg.mp3",
-  ogg:"https://upload.wikimedia.org/wikipedia/commons/f/f0/Moonlight.ogg",
-  description:"Ludwig van Beethoven, Moonlight Sonata, 1st movement",
-  performer:"Juan Felipe Arjona",license:"CC BY 2.5",licenseUrl:"https://creativecommons.org/licenses/by/2.5/",
-  page:"https://commons.wikimedia.org/wiki/File:Moonlight.ogg"
+const musicButton=q("#piano-toggle"), musicSelect=q("#music-track");
+const musicPanel=q("#music-player"), musicVideo=q("#music-video"), musicSource=q("#music-source");
+if(musicButton && musicSelect && musicPanel && musicVideo && musicSource){
+ function showMusic(){
+  const track=musicSelect.selectedOptions[0];
+  const params=new URLSearchParams({autoplay:"1",playsinline:"1",loop:"1",playlist:track.value});
+  if(track.dataset.start)params.set("start",track.dataset.start);
+  const frame=document.createElement("iframe");
+  frame.src="https://www.youtube-nocookie.com/embed/"+track.value+"?"+params;
+  frame.title="YouTube music player: "+track.textContent;
+  frame.allow="autoplay; encrypted-media; picture-in-picture; fullscreen";
+  frame.referrerPolicy="strict-origin-when-cross-origin";
+  musicSource.href="https://www.youtube.com/watch?v="+track.value+(track.dataset.start?"&t="+track.dataset.start+"s":"");
+  musicVideo.replaceChildren(frame);
+  musicPanel.hidden=false;
+  musicButton.setAttribute("aria-expanded","true");
  }
-};
-const pianoAudio=new Audio();pianoAudio.loop=true;pianoAudio.volume=.18;pianoAudio.preload="metadata";
-pianoAudio.setAttribute("playsinline","");
-let alternateAudio=false,wantsMusic=true,pausedByVisitor=false,startOnGesture=false,autoAttempted=false;
-const currentTrack=()=>pianoTracks[trackSelect.value]||pianoTracks.chopin;
-const musicState=(state)=>{
- pianoButton.setAttribute("aria-pressed",String(state==="playing"));
- const label=q("#piano-status");
- if(state==="playing"){label.textContent="PIANO ON";pianoButton.setAttribute("aria-label","Pause relaxing piano music");}
- else if(state==="loading"){label.textContent="LOADING…";pianoButton.setAttribute("aria-label","Relaxing piano is loading");}
- else if(state==="error"){label.textContent="MUSIC ERROR";pianoButton.setAttribute("aria-label","Piano recording unavailable");}
- else{label.textContent="PLAY PIANO";pianoButton.setAttribute("aria-label","Play relaxing Chopin or Beethoven piano");}
-};
-function loadTrack(restarting=false){
- const t=currentTrack();
- if(!restarting){alternateAudio=false;pianoAudio.pause();}
- const useOriginal=alternateAudio&&pianoAudio.canPlayType("audio/ogg");
- pianoAudio.src=useOriginal?t.ogg:t.mp3;
- pianoAudio.load();
- if(musicCredit)musicCredit.innerHTML="Music: "+t.description+" · "+t.performer+
-  ' · <a href="'+t.page+'" target="_blank" rel="noopener noreferrer">recording ↗</a>'+
-  ' (<a href="'+t.licenseUrl+'" target="_blank" rel="noopener noreferrer">'+t.license+"</a>) · Wikimedia Commons";
- musicState("paused");
+ function closeMusic(){
+  musicVideo.replaceChildren();
+  musicPanel.hidden=true;
+  musicButton.setAttribute("aria-expanded","false");
+  musicButton.focus();
+ }
+ musicButton.addEventListener("click",()=>musicPanel.hidden?showMusic():closeMusic());
+ musicSelect.addEventListener("change",()=>{if(!musicPanel.hidden)showMusic()});
+ q("#music-close").addEventListener("click",closeMusic);
 }
-async function attemptPianoPlayback(){
- if(!wantsMusic)return;
- try{
-  musicState("loading");
-  await pianoAudio.play();
-  musicState("playing");
-  startOnGesture=false;
- }catch(err){
-  console.info("Piano sound requires a user gesture or a working audio connection:",err);
-  startOnGesture=true;
-  musicState("paused");
- }
-}
-pianoButton.addEventListener("click",()=>{
- if(!pianoAudio.paused){
-  pausedByVisitor=true;wantsMusic=false;startOnGesture=false;
-  pianoAudio.pause();musicState("paused");
- }else{
-  pausedByVisitor=false;wantsMusic=true;attemptPianoPlayback();
- }
-});
-trackSelect.addEventListener("change",()=>{
- const shouldPlay=wantsMusic&&!pausedByVisitor;
- loadTrack();
- if(shouldPlay)attemptPianoPlayback();
-});
-pianoAudio.addEventListener("playing",()=>musicState("playing"));
-pianoAudio.addEventListener("pause",()=>{if(pianoAudio.paused)musicState("paused")});
-pianoAudio.addEventListener("error",()=>{
- if(!alternateAudio&&pianoAudio.canPlayType("audio/ogg")){
-  alternateAudio=true;loadTrack(true);
-  if(wantsMusic)attemptPianoPlayback();
- }else{
-  musicState("error");
- }
-});
-/* A browser gesture can unblock an earlier automatic-play attempt.
-   This listener is removed after the first attempt or when music is explicitly paused. */
-function resumeMusicFromGesture(event){
- if(!startOnGesture||pausedByVisitor)return;
- /* Let the dedicated player controls handle their own user gesture. */
- if(event.target&&event.target.closest&&event.target.closest(".classical-music-controls"))return;
- startOnGesture=false;
- attemptPianoPlayback();
-}
-document.addEventListener("pointerdown",resumeMusicFromGesture,{passive:true});
-document.addEventListener("keydown",resumeMusicFromGesture);
-loadTrack();
-if(!autoAttempted){autoAttempted=true;attemptPianoPlayback();}
-
 })();

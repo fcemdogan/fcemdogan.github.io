@@ -172,3 +172,11 @@
 .music-player-actions{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 3px 0;font-size:12px}
 .music-player-actions a{color:#d3ff69;text-decoration:underline}
 .music-player-actions button{color:#fff;background:#1d2942;border:1px solid #71809a;border-radius:5px;padding:5px 8px}
+
+/* Secondary domain: keep the existing firatcemdogan.com canonical URL. */
+.alternate-domain{margin:17px 0 0;color:#8f9fba;font-size:10px;letter-spacing:1.25px;font-weight:700;line-height:1.8}
+.alternate-domain span{color:#d3ff69;margin:0 8px}
+.alternate-domain a{font-size:12px;color:#d5ff92;letter-spacing:.15px;border-bottom:1px solid #d3ff6970;padding-bottom:2px;overflow-wrap:anywhere}
+.alternate-domain a:hover,.contact footer a:hover{color:#d3ff69}
+.contact footer{gap:15px;flex-wrap:wrap}
+@media(max-width:650px){.alternate-domain{font-size:9px}.alternate-domain a{font-size:11px}}

@@ -1,0 +1,59 @@
+name: Prepare website audio for streaming
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/prepare-site-audio.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: website-audio
+  cancel-in-progress: false
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout website
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Fetch user-provided MP3 recordings from public release
+        env:
+          AUDIO_BASE: https://github.com/fcemdogan/fcemdogan.github.io/releases/download/site-audio
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/site-audio assets/audio
+          for name in interstellar valse; do
+            curl -fL --retry 4 --retry-delay 2 --connect-timeout 15 --max-time 480 \
+              "$AUDIO_BASE/$name.mp3" -o "/tmp/site-audio/$name.mp3"
+            test "$(stat -c%s "/tmp/site-audio/$name.mp3")" -gt 100000
+            ffprobe -v error -select_streams a:0 -show_entries stream=codec_name \
+              -of default=noprint_wrappers=1 "/tmp/site-audio/$name.mp3"
+          done
+      - name: Convert for browser streaming (preserve the same tracks)
+        run: |
+          set -euo pipefail
+          for name in interstellar valse; do
+            ffmpeg -nostdin -hide_banner -loglevel warning -y \
+              -i "/tmp/site-audio/$name.mp3" \
+              -map 0:a:0 -vn -sn -dn -c:a libmp3lame -b:a 96k \
+              -ar 44100 -id3v2_version 3 -write_xing 1 \
+              "assets/audio/$name.mp3"
+            ffprobe -v error -select_streams a:0 -show_entries stream=codec_name \
+              -of default=noprint_wrappers=1 "assets/audio/$name.mp3"
+            test "$(stat -c%s "assets/audio/$name.mp3")" -gt 100000
+          done
+      - name: Commit web-ready audio to GitHub Pages
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add assets/audio/interstellar.mp3 assets/audio/valse.mp3
+          if git diff --cached --quiet; then
+            echo "No audio changes."
+            exit 0
+          fi
+          git commit -m 'Add streaming-optimized versions of the user-provided MP3 files'
+          git push

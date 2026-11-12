@@ -51,30 +51,36 @@ q("#pubsearch").addEventListener("input",pubView);q("#yearfilter").addEventListe
 let menu=q("#menu");q("#menubtn").addEventListener("click",()=>{let o=menu.classList.toggle("open");q("#menubtn").setAttribute("aria-expanded",String(o))});menu.querySelectorAll("a").forEach(a=>a.addEventListener("click",()=>{menu.classList.remove("open");q("#menubtn").setAttribute("aria-expanded","false")}));
 
 const musicButton=q("#piano-toggle"), musicSelect=q("#music-track");
-const musicPanel=q("#music-player"), musicVideo=q("#music-video"), musicSource=q("#music-source");
-if(musicButton && musicSelect && musicPanel && musicVideo && musicSource){
- function showMusic(){
-  const track=musicSelect.selectedOptions[0];
-  const params=new URLSearchParams({autoplay:"1",playsinline:"1",loop:"1",playlist:track.value});
-  if(track.dataset.start)params.set("start",track.dataset.start);
-  const frame=document.createElement("iframe");
-  frame.src="https://www.youtube-nocookie.com/embed/"+track.value+"?"+params;
-  frame.title="YouTube music player: "+track.textContent;
-  frame.allow="autoplay; encrypted-media; picture-in-picture; fullscreen";
-  frame.referrerPolicy="strict-origin-when-cross-origin";
-  musicSource.href="https://www.youtube.com/watch?v="+track.value+(track.dataset.start?"&t="+track.dataset.start+"s":"");
-  musicVideo.replaceChildren(frame);
-  musicPanel.hidden=false;
-  musicButton.setAttribute("aria-expanded","true");
+const musicStatus=q("#music-status");
+if(musicButton && musicSelect && musicStatus){
+ const audio=new Audio();
+ audio.preload="none";
+ audio.loop=true;
+ audio.volume=0.18;
+
+ function selectMusic(){
+  audio.src="https://github.com/fcemdogan/fcemdogan.github.io/releases/download/site-audio/"+musicSelect.value+".mp3";
  }
- function closeMusic(){
-  musicVideo.replaceChildren();
-  musicPanel.hidden=true;
-  musicButton.setAttribute("aria-expanded","false");
-  musicButton.focus();
+ function updateMusicButton(){
+  musicButton.setAttribute("aria-pressed",String(!audio.paused));
+  musicStatus.textContent=audio.paused?"PLAY":"PAUSE";
  }
- musicButton.addEventListener("click",()=>musicPanel.hidden?showMusic():closeMusic());
- musicSelect.addEventListener("change",()=>{if(!musicPanel.hidden)showMusic()});
- q("#music-close").addEventListener("click",closeMusic);
+ async function playMusic(){
+  if(!audio.getAttribute("src"))selectMusic();
+  try{
+   await audio.play();
+  }catch(error){
+   if(error.name!=="AbortError")musicStatus.textContent="RETRY";
+  }
+ }
+ musicButton.addEventListener("click",()=>audio.paused?playMusic():audio.pause());
+ musicSelect.addEventListener("change",()=>{
+  const wasPlaying=!audio.paused;
+  selectMusic();
+  if(wasPlaying)playMusic();
+  else updateMusicButton();
+ });
+ audio.addEventListener("playing",updateMusicButton);
+ audio.addEventListener("pause",updateMusicButton);
 }
 })();
